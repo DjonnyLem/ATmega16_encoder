@@ -22,10 +22,10 @@ frame1.pack(fill=tk.BOTH, side=tk.LEFT, expand=True, padx=5, pady=5)
 frame_mount = tk.Frame(master=frame1)
 frame_mount.pack(fill=tk.X)#(fill=tk.BOTH, side=tk.LEFT, expand=True)
 
-lbl_mount = tk.Label(frame_mount, text="Введите месяц:", foreground="grey20")
+lbl_mount = tk.Label(frame_mount, text="Введите месяц:", foreground="grey20",font=50)
 lbl_mount.pack(side=tk.LEFT, padx=5, pady=5)
 
-entry_mount = tk.Entry(frame_mount, fg="grey20", bg="grey98", width=40)
+entry_mount = tk.Entry(frame_mount, fg="grey20", bg="grey98", width=40, font=50)
 entry_mount.pack(fill=tk.X, padx=5, expand=True)
 
 
