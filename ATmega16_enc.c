@@ -12,7 +12,6 @@
 //#define  LED_DDR DDRD
 //#define  BLINK 100
 //#define  TLCD 10
-//#define  COUNT_TIMER 7   //7
 //#define	 Enc_A PD0
 //#define	 Enc_B PD1
 //#define	 Enc_DDR DDRD
@@ -26,9 +25,10 @@
 #define Enc_A		PD2		//
 #define Enc_B		PD1		//
 #define  COUNT_TIMER 7     //
+#define  ON_ADC 10 
 
 signed int Enc_count = 0; //счетчик импульсов энкодера
-
+signed int value_ADC = 0;
 
 //#define	FlagLCD 1
 //#define	FlagTimer 0
@@ -37,7 +37,7 @@ signed int Enc_count = 0; //счетчик импульсов энкодера
 //unsigned char LCD;
 //unsigned int FlagL;
 //signed int EncData =0;// счетный регистр энкодера
-//unsigned int	 	Count	= BLINK;			// регистр счетчик импульсов LED
+unsigned int	 	count_ADC	= 0;			// регистр счетчик подключения АЦП
 //unsigned int	 	LCD_count	= TLCD;			// регистр счетчик импульсов обновления данных LED индикатора
 //unsigned char NewValue;					//новое состояние энкодера
 //unsigned char EncValue;					////текущее состояние энкодера
@@ -58,7 +58,17 @@ struct flag
 ISR(TIMER0_COMP_vect)
 	{
 	cli();	
+	if (count_ADC == ON_ADC)
+	{
+	     ADC_DATA();
+    }
+	else
+	{
+	    count_ADC++;
+	}	
+		
 	asm("nop");
+    
 	sei();
 	}
 
@@ -109,11 +119,12 @@ ISR(INT0_vect)
 // Обработчик прерывания от АЦП
 //*****************************************************
 ISR(ADC_vect)
+    {
 	cli();
 	asm ("nop");
 	sei();
 
-
+    }
 //*****************************************************
 int main(void){
 	LCDinit();      //Инициализация LCD
@@ -124,7 +135,9 @@ int main(void){
 	Init_ADC();
 /*	Init_Enc();*/
 	pBuf=BCD_GetPointerBuf();//иннициализация переменной pBuf для вывода данных на LCD
-	sei();								// Общее разрешение прерываний
+	OCR0 = COUNT_TIMER;
+    TCNT0 =0;
+    sei();								// Общее разрешение прерываний
 	while(1)
 	{
 		if (Flag.Lcd == 1)
@@ -161,7 +174,7 @@ void Init_TIMER0_COMP(void)
 	
     TIFR |= (1<<OCF0)|(0<<TOV0);
 	
-	OCR0 = COUNT_TIMER;
+	
 	
 }
 
@@ -193,27 +206,43 @@ void Init_Port(void)
 	Enc_DDR &= (~(1<<Enc_A) | (1<<Enc_B)); // БИТ ПОРТА D НА ВХОД
 	Enc_PORT &= (~(1<<Enc_A) | (1<<Enc_B)); //УСТАНАВЛИВАЕМ В БИТЕ ПОРТА D ПОДТЯЖКУ
 	
-	
+	DDRA = 0b00000000; // БИТ ПОРТА A НА ВХОД
+	PORTA = 0b00000001; //УСТАНАВЛИВАЕМ В БИТЕ ПОРТА A ПОДТЯЖКУ
 };
 
 void Init_ADC(void) // Настройка АЦП
 {
-	ADMUX |= (1 << REFS1)|(1 << REFS0); // Внутренний ИОН 2,56V
+	ADMUX |= (0 << REFS1)|(1 << REFS0); //  берется напряжение питания; MUX 0000 -канал ADC0
 	ADCSRA |=     (1 << ADEN)  // Разрешение АЦП
 	             |(1 << ADSC)  // Запуск преобразования
-	             |(1 << ADFR)  // Непрерывный режим работы АЦП
+				 |(1 << ADATE)  // Непрерывный режим работы АЦП
 				 |(1 << ADPS2)|(1 << ADPS1) // Предделитель на 64 (частота АЦП 125kHz)
              	 |(1 << ADIE); // Разрешение прерывания от АЦП
+				// |(1 << ADLAR); // выравнивание по левому краю
+	
  }
 
 
 void LCD_DATA (void)
 {
-		LCDstringXY("Знач.энкодера",0,0);
-		//LCDstringXY("Аня - доченька",0,1);
+		LCDstringXY("Encoder",0,0);
+		LCDstringXY("Volt:",0,1);
 		
 		BCD_5Int(Enc_count);
-		LCDstring_of_sramXY(pBuf,5,1);
+		LCDstring_of_sramXY(pBuf,8,0);
+		
+		BCD_5Int(value_ADC);
+		LCDstring_of_sramXY(pBuf,8,1);
+		
         //asm("nop");
 		//LCDstringXY(EncValueValue,5,1);
+}
+
+
+void ADC_DATA(void)
+{
+	count_ADC = 0;
+	value_ADC=ADCL;
+	Flag.Lcd == 1;
+	asm("nop");
 }
