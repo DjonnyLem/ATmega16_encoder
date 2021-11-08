@@ -212,11 +212,11 @@ void Init_Port(void)
 
 void Init_ADC(void) // Настройка АЦП
 {
-	ADMUX |= (0 << REFS1)|(1 << REFS0); //  берется напряжение питания; MUX 0000 -канал ADC0
-	ADCSRA |=     (1 << ADEN)  // Разрешение АЦП
-	             |(1 << ADSC)  // Запуск преобразования
+	ADMUX |= (0 << REFS1)|(1 << REFS0); //  берется напряжение питания; MUX 0000 -канал ADC0*
+	ADCSRA |=     (1 << ADEN)  // Разрешение АЦП*
+	             //|(1 << ADSC)  // Запуск преобразования
 				 |(1 << ADATE)  // Непрерывный режим работы АЦП
-				 |(1 << ADPS2)|(1 << ADPS1) // Предделитель на 64 (частота АЦП 125kHz)
+				 |(1 << ADPS2)|(1 << ADPS1) |(1 << ADPS0)// Предделитель на 128 (частота АЦП 64kHz)*
              	 |(1 << ADIE); // Разрешение прерывания от АЦП
 				// |(1 << ADLAR); // выравнивание по левому краю
 	
@@ -241,8 +241,11 @@ void LCD_DATA (void)
 
 void ADC_DATA(void)
 {
-	count_ADC = 0;
-	value_ADC=ADCL;
-	Flag.Lcd == 1;
-	asm("nop");
+	ADCSRA |= (1<<ADSC); //Начинаем преобразование
+	while(ADCSRA &(1<<ADSC));
+		count_ADC = 0;
+		unsigned int ADC;
+		value_ADC=ADC;
+		Flag.Lcd == 1;
+	
 }

@@ -1,125 +1,119 @@
 #https://python-scripts.com/tkinter
+
+import os
+import datetime
 import tkinter as tk
+from tkinter import ttk
 
-window = tk.Tk()
-window.title('Программа создания папок')
-window.geometry("550x250")
+years = (2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050)
+months = ('Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь')
+days =(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31)
 
-frame = tk.Frame() 
-frame.pack(fill=tk.X, side=tk.TOP)
+ 
+def make_dir():
+    a = int(months.index(cmb_month.get())) +1
+    b = int(cmb_first_day.get())
+    c = int(cmb_last_day.get()) + 1
+    d = int(cmb_year.get())
 
-label = tk.Label(
-        master=frame,
-        text="Программа создает папки с наименованием в формате DD.MM.YY.\n Месяц и период дней введите в форме ниже.",
-        foreground="grey20")
-label.pack( padx=5, pady=15)
+    for i in range (b, c):
+        if i < 10:
+                if a < 10:
+                    os.mkdir(str(d)+ '.' + '0' + str(a) + '.0' + str(i))
+                else:
+                    os.mkdir(str(d)+ '.' + str(a) + '.0' + str(i))
+        else:
+            if a < 10:
+                os.mkdir(str(d)+ '.' + '0' + str(a) + '.' + str(i))
+            else:
+                os.mkdir(str(d)+ '.' + str(a) + '.' + str(i))
 
-frame1 = tk.Frame()
-frame1.pack(fill=tk.BOTH, side=tk.LEFT, expand=True, padx=5, pady=5)
+                
+def lbl_style(txt,row,column):
+    return tk.Label(win, text=txt, foreground="#404040",font=20).grid(row=row,column=column,padx=3, pady=3,sticky="e")
 
+def cmb_style(values,row,column):
+    d=datetime.date.today()
 
+    if values == years:
+        dd = years.index(d.year)
+    elif values == months:
+        dd = d.month-1
+    elif values == days:
+        dd = days.index(d.day)    
 
-frame_mount = tk.Frame(master=frame1)
-frame_mount.pack(fill=tk.X)#(fill=tk.BOTH, side=tk.LEFT, expand=True)
-
-lbl_mount = tk.Label(frame_mount, text="Введите месяц:", foreground="grey20",font=50)
-lbl_mount.pack(side=tk.LEFT, padx=5, pady=5)
-
-entry_mount = tk.Entry(frame_mount, fg="grey20", bg="grey98", width=40, font=50)
-entry_mount.pack(fill=tk.X, padx=5, expand=True)
-
-
-
-frame_first_day = tk.Frame(master=frame1)
-frame_first_day.pack(fill=tk.X)
-
-lbl_first_day = tk.Label(master=frame_first_day, text="Введите начальную дату:", foreground="grey20")
-lbl_first_day.pack(side=tk.LEFT, padx=5, pady=5)
-
-entry__first_day = tk.Entry(master=frame_first_day, fg="grey20", bg="grey98", width=40)
-entry__first_day.pack(fill=tk.X, padx=5, expand=True)
-
-
-
-frame_last_day = tk.Frame(master=frame1)
-frame_last_day.pack(fill=tk.X)
-
-lbl_last_day = tk.Label(master=frame_last_day, text="Введите конечную дату:", foreground="grey20")
-lbl_last_day.pack(side=tk.LEFT, padx=5, pady=5)
-
-entry_last_day = tk.Entry(master=frame_last_day, fg="grey20", bg="grey98", width=40)
-entry_last_day.pack(fill=tk.X, padx=5, expand=True)
-
-
-
-frame_button = tk.Frame(master=frame1)
-frame_button.pack(fill=tk.X)
-
-button = tk.Button(master=frame_button, text="Создать папки", width=14, height=2, fg="grey22")
-button.pack(side=tk.RIGHT,fill=tk.BOTH, padx=5, pady=5)
+    cmb = ttk.Combobox(win,values=values,font=20,foreground="#404040")
+    cmb.current(dd)
+    cmb.grid(row=row,column=column,padx=15, pady=3,sticky="we")
+    return cmb
+win = tk.Tk()
+win.title('Программа для создания папок')
+win.geometry("500x250")
+win.resizable(width=False, height=False)
+win.columnconfigure([0,1], weight=1, minsize=75)
+win.rowconfigure([0,6], weight=1, minsize=50)
+ 
+lbl = tk.Label(win, text="Программа создает папки с наименованием в формате DD.MM.YY.\n Месяц и период дней введите в форме ниже.", foreground="grey20")
+lbl.grid(row=0,columnspan=2, sticky="we",padx=3, pady=3)
 
 
+lbl_year=lbl_style("Выберите год:",1,0)
+cmb_year = cmb_style(years,1,1)
 
 
+lbl_month=lbl_style("Выберите месяц:",2,0)
+cmb_month = cmb_style(months,2,1)
 
-window.mainloop()
+
+lbl_first_day = lbl_style("Выберите начальную дату:",3,0)
+cmb_first_day = cmb_style(days,3,1)
+
+lbl_last_day = lbl_style("Выберите конечную дату:",4,0)
+cmb_last_day = cmb_style(days,4,1)
 
 
+lbl = tk.Label(win, text="Куда сохранить результат", foreground="grey20")
+lbl.grid(row=5,columnspan=2, sticky="we",padx=3, pady=3)
 
+frame_button = tk.Frame(win,)
+frame_button.grid(row=6,columnspan=2, sticky="we",padx=3, pady=3)
+
+button = tk.Button(frame_button, text="Создать папки", width=14, height=2, fg="grey22",command=make_dir)
+button.pack(side=tk.RIGHT,fill=tk.BOTH, padx=15, pady=5)
+
+
+win.mainloop()
 '''
-from tkinter import Tk, Text, BOTH, X, N, LEFT
-from tkinter.ttk import Frame, Label, Entry
- 
- 
-class Example(Frame):
- 
+
+import tkinter as tk
+import tkinter.filedialog as fd
+
+class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.initUI()
- 
-    def initUI(self):
-        self.master.title("Оставить отзыв")
-        self.pack(fill=BOTH, expand=True)
- 
-        frame1 = Frame(self)
-        frame1.pack(fill=X)
- 
-        lbl1 = Label(frame1, text="Заголовок", width=10)
-        lbl1.pack(side=LEFT, padx=5, pady=5)
- 
-        entry1 = Entry(frame1)
-        entry1.pack(fill=X, padx=5, expand=True)
- 
-        frame2 = Frame(self)
-        frame2.pack(fill=X)
- 
-        lbl2 = Label(frame2, text="Автор", width=10)
-        lbl2.pack(side=LEFT, padx=5, pady=5)
- 
-        entry2 = Entry(frame2)
-        entry2.pack(fill=X, padx=5, expand=True)
- 
-        frame3 = Frame(self)
-        frame3.pack(fill=BOTH, expand=True)
- 
-        lbl3 = Label(frame3, text="Отзыв", width=10)
-        lbl3.pack(side=LEFT, anchor=N, padx=5, pady=5)
- 
-        txt = Text(frame3)
-        txt.pack(fill=BOTH, pady=5, padx=5, expand=True)
- 
- 
-def main():
- 
-    root = Tk()
-    root.geometry("300x300+300+300")
-    app = Example()
-    root.mainloop()
- 
- 
-if __name__ == '__main__':
-    main()
+        btn_file = tk.Button(self, text="Выбрать файл",
+                             command=self.choose_file)
+        btn_dir = tk.Button(self, text="Выбрать папку",
+                             command=self.choose_directory)
+        btn_file.pack(padx=60, pady=10)
+        btn_dir.pack(padx=60, pady=10)
 
+    def choose_file(self):
+        filetypes = (("Текстовый файл", "*.txt"),
+                     ("Изображение", "*.jpg *.gif *.png"),
+                     ("Любой", "*"))
+        filename = fd.askopenfilename(title="Открыть файл", initialdir="/",
+                                      filetypes=filetypes)
+        if filename:
+            print(filename)
 
+    def choose_directory(self):
+        directory = fd.askdirectory(title="Открыть папку", initialdir="/")
+        if directory:
+            print(directory)
+
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
 
 '''
