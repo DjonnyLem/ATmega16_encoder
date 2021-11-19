@@ -1,0 +1,782 @@
+
+lesson_AV_meter_atmega8.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000492  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000022  00800060  00000492  00000526  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000000e  00800082  00800082  00000548  2**0
+                  ALLOC
+  3 .stab         000006cc  00000000  00000000  00000548  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      00000085  00000000  00000000  00000c14  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_aranges 00000020  00000000  00000000  00000c99  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_pubnames 000000c6  00000000  00000000  00000cb9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_info   000005f5  00000000  00000000  00000d7f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_abbrev 0000018d  00000000  00000000  00001374  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_line   0000043c  00000000  00000000  00001501  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_frame  00000070  00000000  00000000  00001940  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_str    00000175  00000000  00000000  000019b0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_loc    0000005c  00000000  00000000  00001b25  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_pubtypes 00000038  00000000  00000000  00001b81  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	2c c0       	rjmp	.+88     	; 0x5c <__bad_interrupt>
+   4:	2b c0       	rjmp	.+86     	; 0x5c <__bad_interrupt>
+   6:	2a c0       	rjmp	.+84     	; 0x5c <__bad_interrupt>
+   8:	29 c0       	rjmp	.+82     	; 0x5c <__bad_interrupt>
+   a:	28 c0       	rjmp	.+80     	; 0x5c <__bad_interrupt>
+   c:	27 c0       	rjmp	.+78     	; 0x5c <__bad_interrupt>
+   e:	26 c0       	rjmp	.+76     	; 0x5c <__bad_interrupt>
+  10:	25 c0       	rjmp	.+74     	; 0x5c <__bad_interrupt>
+  12:	24 c0       	rjmp	.+72     	; 0x5c <__bad_interrupt>
+  14:	23 c0       	rjmp	.+70     	; 0x5c <__bad_interrupt>
+  16:	22 c0       	rjmp	.+68     	; 0x5c <__bad_interrupt>
+  18:	21 c0       	rjmp	.+66     	; 0x5c <__bad_interrupt>
+  1a:	20 c0       	rjmp	.+64     	; 0x5c <__bad_interrupt>
+  1c:	20 c0       	rjmp	.+64     	; 0x5e <__vector_14>
+  1e:	1e c0       	rjmp	.+60     	; 0x5c <__bad_interrupt>
+  20:	1d c0       	rjmp	.+58     	; 0x5c <__bad_interrupt>
+  22:	1c c0       	rjmp	.+56     	; 0x5c <__bad_interrupt>
+  24:	1b c0       	rjmp	.+54     	; 0x5c <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_copy_data>:
+  32:	10 e0       	ldi	r17, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	e2 e9       	ldi	r30, 0x92	; 146
+  3a:	f4 e0       	ldi	r31, 0x04	; 4
+  3c:	02 c0       	rjmp	.+4      	; 0x42 <__SREG__+0x3>
+  3e:	05 90       	lpm	r0, Z+
+  40:	0d 92       	st	X+, r0
+  42:	a2 38       	cpi	r26, 0x82	; 130
+  44:	b1 07       	cpc	r27, r17
+  46:	d9 f7       	brne	.-10     	; 0x3e <__SP_H__>
+
+00000048 <__do_clear_bss>:
+  48:	10 e0       	ldi	r17, 0x00	; 0
+  4a:	a2 e8       	ldi	r26, 0x82	; 130
+  4c:	b0 e0       	ldi	r27, 0x00	; 0
+  4e:	01 c0       	rjmp	.+2      	; 0x52 <.do_clear_bss_start>
+
+00000050 <.do_clear_bss_loop>:
+  50:	1d 92       	st	X+, r1
+
+00000052 <.do_clear_bss_start>:
+  52:	a0 39       	cpi	r26, 0x90	; 144
+  54:	b1 07       	cpc	r27, r17
+  56:	e1 f7       	brne	.-8      	; 0x50 <.do_clear_bss_loop>
+  58:	f8 d0       	rcall	.+496    	; 0x24a <main>
+  5a:	19 c2       	rjmp	.+1074   	; 0x48e <_exit>
+
+0000005c <__bad_interrupt>:
+  5c:	d1 cf       	rjmp	.-94     	; 0x0 <__vectors>
+
+0000005e <__vector_14>:
+unsigned int voltage, current;
+volatile unsigned long voltage_buffer, current_buffer;
+ 
+// Обработчик прерывания от АЦП
+ISR(ADC_vect)
+{
+  5e:	1f 92       	push	r1
+  60:	0f 92       	push	r0
+  62:	0f b6       	in	r0, 0x3f	; 63
+  64:	0f 92       	push	r0
+  66:	11 24       	eor	r1, r1
+  68:	2f 93       	push	r18
+  6a:	3f 93       	push	r19
+  6c:	4f 93       	push	r20
+  6e:	5f 93       	push	r21
+  70:	8f 93       	push	r24
+  72:	9f 93       	push	r25
+  74:	af 93       	push	r26
+  76:	bf 93       	push	r27
+if(ADMUX & 0x0F) // Если был выбран канал ADC1
+  78:	87 b1       	in	r24, 0x07	; 7
+  7a:	90 e0       	ldi	r25, 0x00	; 0
+  7c:	8f 70       	andi	r24, 0x0F	; 15
+  7e:	90 70       	andi	r25, 0x00	; 0
+  80:	00 97       	sbiw	r24, 0x00	; 0
+  82:	09 f1       	breq	.+66     	; 0xc6 <__vector_14+0x68>
+{
+voltage_buffer += ADC; // Накапливаем в буфер значения напряжения
+  84:	20 91 88 00 	lds	r18, 0x0088
+  88:	30 91 89 00 	lds	r19, 0x0089
+  8c:	40 91 8a 00 	lds	r20, 0x008A
+  90:	50 91 8b 00 	lds	r21, 0x008B
+  94:	84 b1       	in	r24, 0x04	; 4
+  96:	95 b1       	in	r25, 0x05	; 5
+  98:	a0 e0       	ldi	r26, 0x00	; 0
+  9a:	b0 e0       	ldi	r27, 0x00	; 0
+  9c:	82 0f       	add	r24, r18
+  9e:	93 1f       	adc	r25, r19
+  a0:	a4 1f       	adc	r26, r20
+  a2:	b5 1f       	adc	r27, r21
+  a4:	80 93 88 00 	sts	0x0088, r24
+  a8:	90 93 89 00 	sts	0x0089, r25
+  ac:	a0 93 8a 00 	sts	0x008A, r26
+  b0:	b0 93 8b 00 	sts	0x008B, r27
+ADMUX = (ADMUX & 0xF0) | 0; // Выбираем канал ADC0
+  b4:	87 b1       	in	r24, 0x07	; 7
+  b6:	80 7f       	andi	r24, 0xF0	; 240
+  b8:	87 b9       	out	0x07, r24	; 7
+voltage_counter++; // Увеличиваем счетчик измерений
+  ba:	80 91 83 00 	lds	r24, 0x0083
+  be:	8f 5f       	subi	r24, 0xFF	; 255
+  c0:	80 93 83 00 	sts	0x0083, r24
+  c4:	21 c0       	rjmp	.+66     	; 0x108 <__vector_14+0xaa>
+}
+else
+{
+current_buffer += ADC; // Накапливаем в буфер значения тока
+  c6:	20 91 8c 00 	lds	r18, 0x008C
+  ca:	30 91 8d 00 	lds	r19, 0x008D
+  ce:	40 91 8e 00 	lds	r20, 0x008E
+  d2:	50 91 8f 00 	lds	r21, 0x008F
+  d6:	84 b1       	in	r24, 0x04	; 4
+  d8:	95 b1       	in	r25, 0x05	; 5
+  da:	a0 e0       	ldi	r26, 0x00	; 0
+  dc:	b0 e0       	ldi	r27, 0x00	; 0
+  de:	82 0f       	add	r24, r18
+  e0:	93 1f       	adc	r25, r19
+  e2:	a4 1f       	adc	r26, r20
+  e4:	b5 1f       	adc	r27, r21
+  e6:	80 93 8c 00 	sts	0x008C, r24
+  ea:	90 93 8d 00 	sts	0x008D, r25
+  ee:	a0 93 8e 00 	sts	0x008E, r26
+  f2:	b0 93 8f 00 	sts	0x008F, r27
+ADMUX = (ADMUX & 0xF0) | 1; // Выбираем канал ADC1
+  f6:	87 b1       	in	r24, 0x07	; 7
+  f8:	80 7f       	andi	r24, 0xF0	; 240
+  fa:	81 60       	ori	r24, 0x01	; 1
+  fc:	87 b9       	out	0x07, r24	; 7
+current_counter++; // Увеличиваем счетчик измерений
+  fe:	80 91 82 00 	lds	r24, 0x0082
+ 102:	8f 5f       	subi	r24, 0xFF	; 255
+ 104:	80 93 82 00 	sts	0x0082, r24
+}
+}
+ 108:	bf 91       	pop	r27
+ 10a:	af 91       	pop	r26
+ 10c:	9f 91       	pop	r25
+ 10e:	8f 91       	pop	r24
+ 110:	5f 91       	pop	r21
+ 112:	4f 91       	pop	r20
+ 114:	3f 91       	pop	r19
+ 116:	2f 91       	pop	r18
+ 118:	0f 90       	pop	r0
+ 11a:	0f be       	out	0x3f, r0	; 63
+ 11c:	0f 90       	pop	r0
+ 11e:	1f 90       	pop	r1
+ 120:	18 95       	reti
+
+00000122 <lcd_com>:
+#define EN PD2
+ 
+// Функция передачи команды
+void lcd_com(unsigned char p)
+{
+PORTD &= ~(1 << RS); // RS = 0 (запись команд)
+ 122:	90 98       	cbi	0x12, 0	; 18
+PORTD |= (1 << EN); // EN = 1 (начало записи команды в LCD)
+ 124:	92 9a       	sbi	0x12, 2	; 18
+PORTD &= 0x0F; PORTD |= (p & 0xF0); // Старший нибл
+ 126:	92 b3       	in	r25, 0x12	; 18
+ 128:	9f 70       	andi	r25, 0x0F	; 15
+ 12a:	92 bb       	out	0x12, r25	; 18
+ 12c:	22 b3       	in	r18, 0x12	; 18
+ 12e:	98 2f       	mov	r25, r24
+ 130:	90 7f       	andi	r25, 0xF0	; 240
+ 132:	92 2b       	or	r25, r18
+ 134:	92 bb       	out	0x12, r25	; 18
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 136:	95 e8       	ldi	r25, 0x85	; 133
+ 138:	9a 95       	dec	r25
+ 13a:	f1 f7       	brne	.-4      	; 0x138 <lcd_com+0x16>
+ 13c:	00 00       	nop
+_delay_us(100);
+PORTD &= ~(1 << EN); // EN = 0 (конец записи команды в LCD)
+ 13e:	92 98       	cbi	0x12, 2	; 18
+ 140:	95 e8       	ldi	r25, 0x85	; 133
+ 142:	9a 95       	dec	r25
+ 144:	f1 f7       	brne	.-4      	; 0x142 <lcd_com+0x20>
+ 146:	00 00       	nop
+_delay_us(100);
+PORTD |= (1 << EN); // EN = 1 (начало записи команды в LCD)
+ 148:	92 9a       	sbi	0x12, 2	; 18
+PORTD &= 0x0F; PORTD |= (p << 4); // Младший нибл
+ 14a:	92 b3       	in	r25, 0x12	; 18
+ 14c:	9f 70       	andi	r25, 0x0F	; 15
+ 14e:	92 bb       	out	0x12, r25	; 18
+ 150:	92 b3       	in	r25, 0x12	; 18
+ 152:	82 95       	swap	r24
+ 154:	80 7f       	andi	r24, 0xF0	; 240
+ 156:	89 2b       	or	r24, r25
+ 158:	82 bb       	out	0x12, r24	; 18
+ 15a:	85 e8       	ldi	r24, 0x85	; 133
+ 15c:	8a 95       	dec	r24
+ 15e:	f1 f7       	brne	.-4      	; 0x15c <lcd_com+0x3a>
+ 160:	00 00       	nop
+_delay_us(100);
+PORTD &= ~(1 << EN); // EN = 0 (конец записи команды в LCD)
+ 162:	92 98       	cbi	0x12, 2	; 18
+ 164:	95 e8       	ldi	r25, 0x85	; 133
+ 166:	9a 95       	dec	r25
+ 168:	f1 f7       	brne	.-4      	; 0x166 <lcd_com+0x44>
+ 16a:	00 00       	nop
+_delay_us(100);
+}
+ 16c:	08 95       	ret
+
+0000016e <lcd_data>:
+ 
+// Функция передачи данных
+void lcd_data(unsigned char p)
+{
+PORTD |= (1 << RS)|(1 << EN); // RS = 1 (запись данных), EN - 1 (начало записи команды в LCD)
+ 16e:	92 b3       	in	r25, 0x12	; 18
+ 170:	95 60       	ori	r25, 0x05	; 5
+ 172:	92 bb       	out	0x12, r25	; 18
+PORTD &= 0x0F; PORTD |= (p & 0xF0); // Старший нибл
+ 174:	92 b3       	in	r25, 0x12	; 18
+ 176:	9f 70       	andi	r25, 0x0F	; 15
+ 178:	92 bb       	out	0x12, r25	; 18
+ 17a:	22 b3       	in	r18, 0x12	; 18
+ 17c:	98 2f       	mov	r25, r24
+ 17e:	90 7f       	andi	r25, 0xF0	; 240
+ 180:	92 2b       	or	r25, r18
+ 182:	92 bb       	out	0x12, r25	; 18
+ 184:	95 e8       	ldi	r25, 0x85	; 133
+ 186:	9a 95       	dec	r25
+ 188:	f1 f7       	brne	.-4      	; 0x186 <lcd_data+0x18>
+ 18a:	00 00       	nop
+_delay_us(100);
+PORTD &= ~(1 << EN); // EN = 0 (конец записи команды в LCD)
+ 18c:	92 98       	cbi	0x12, 2	; 18
+ 18e:	95 e8       	ldi	r25, 0x85	; 133
+ 190:	9a 95       	dec	r25
+ 192:	f1 f7       	brne	.-4      	; 0x190 <lcd_data+0x22>
+ 194:	00 00       	nop
+_delay_us(100);
+PORTD |= (1 << EN); // EN = 1 (начало записи команды в LCD)
+ 196:	92 9a       	sbi	0x12, 2	; 18
+PORTD &= 0x0F; PORTD |= (p << 4); // Младший нибл
+ 198:	92 b3       	in	r25, 0x12	; 18
+ 19a:	9f 70       	andi	r25, 0x0F	; 15
+ 19c:	92 bb       	out	0x12, r25	; 18
+ 19e:	92 b3       	in	r25, 0x12	; 18
+ 1a0:	82 95       	swap	r24
+ 1a2:	80 7f       	andi	r24, 0xF0	; 240
+ 1a4:	89 2b       	or	r24, r25
+ 1a6:	82 bb       	out	0x12, r24	; 18
+ 1a8:	85 e8       	ldi	r24, 0x85	; 133
+ 1aa:	8a 95       	dec	r24
+ 1ac:	f1 f7       	brne	.-4      	; 0x1aa <lcd_data+0x3c>
+ 1ae:	00 00       	nop
+_delay_us(100);
+PORTD &= ~(1 << EN); // EN = 0 (конец записи команды в LCD)
+ 1b0:	92 98       	cbi	0x12, 2	; 18
+ 1b2:	95 e8       	ldi	r25, 0x85	; 133
+ 1b4:	9a 95       	dec	r25
+ 1b6:	f1 f7       	brne	.-4      	; 0x1b4 <lcd_data+0x46>
+ 1b8:	00 00       	nop
+_delay_us(100);
+}
+ 1ba:	08 95       	ret
+
+000001bc <lcd_string>:
+ 
+// Функция вывода строки на LCD
+void lcd_string(unsigned char command, char *string)
+{
+ 1bc:	ef 92       	push	r14
+ 1be:	ff 92       	push	r15
+ 1c0:	0f 93       	push	r16
+ 1c2:	1f 93       	push	r17
+ 1c4:	df 93       	push	r29
+ 1c6:	cf 93       	push	r28
+ 1c8:	00 d0       	rcall	.+0      	; 0x1ca <lcd_string+0xe>
+ 1ca:	cd b7       	in	r28, 0x3d	; 61
+ 1cc:	de b7       	in	r29, 0x3e	; 62
+ 1ce:	18 2f       	mov	r17, r24
+lcd_com(0x0C); // Включение дисплея, курсор не видим
+ 1d0:	8c e0       	ldi	r24, 0x0C	; 12
+ 1d2:	69 83       	std	Y+1, r22	; 0x01
+ 1d4:	7a 83       	std	Y+2, r23	; 0x02
+ 1d6:	a5 df       	rcall	.-182    	; 0x122 <lcd_com>
+lcd_com(command); // Адрес знакоместа
+ 1d8:	81 2f       	mov	r24, r17
+ 1da:	a3 df       	rcall	.-186    	; 0x122 <lcd_com>
+ 1dc:	69 81       	ldd	r22, Y+1	; 0x01
+ 1de:	7a 81       	ldd	r23, Y+2	; 0x02
+ 1e0:	46 2f       	mov	r20, r22
+ 1e2:	57 2f       	mov	r21, r23
+ 1e4:	8a 01       	movw	r16, r20
+// Выводим символы пока не будет конца строки
+while(*string != '\0')
+ 1e6:	01 c0       	rjmp	.+2      	; 0x1ea <lcd_string+0x2e>
+{
+lcd_data(*string); // Выводим символ
+ 1e8:	c2 df       	rcall	.-124    	; 0x16e <lcd_data>
+void lcd_string(unsigned char command, char *string)
+{
+lcd_com(0x0C); // Включение дисплея, курсор не видим
+lcd_com(command); // Адрес знакоместа
+// Выводим символы пока не будет конца строки
+while(*string != '\0')
+ 1ea:	f8 01       	movw	r30, r16
+ 1ec:	81 91       	ld	r24, Z+
+ 1ee:	8f 01       	movw	r16, r30
+ 1f0:	88 23       	and	r24, r24
+ 1f2:	d1 f7       	brne	.-12     	; 0x1e8 <lcd_string+0x2c>
+{
+lcd_data(*string); // Выводим символ
+string++; // Следующий символ строки
+}
+}
+ 1f4:	0f 90       	pop	r0
+ 1f6:	0f 90       	pop	r0
+ 1f8:	cf 91       	pop	r28
+ 1fa:	df 91       	pop	r29
+ 1fc:	1f 91       	pop	r17
+ 1fe:	0f 91       	pop	r16
+ 200:	ff 90       	pop	r15
+ 202:	ef 90       	pop	r14
+ 204:	08 95       	ret
+
+00000206 <lcd_init>:
+ 
+// Функция инициализации LCD
+void lcd_init(void)
+{
+DDRD = 0xFF;
+ 206:	8f ef       	ldi	r24, 0xFF	; 255
+ 208:	81 bb       	out	0x11, r24	; 17
+PORTD = 0x00;
+ 20a:	12 ba       	out	0x12, r1	; 18
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 20c:	8f e4       	ldi	r24, 0x4F	; 79
+ 20e:	93 ec       	ldi	r25, 0xC3	; 195
+ 210:	01 97       	sbiw	r24, 0x01	; 1
+ 212:	f1 f7       	brne	.-4      	; 0x210 <lcd_init+0xa>
+ 214:	00 c0       	rjmp	.+0      	; 0x216 <lcd_init+0x10>
+ 216:	00 00       	nop
+_delay_ms(50); // Ожидание готовности ЖК-модуля
+// Конфигурирование четырехразрядного режима
+PORTD |= (1 << PD5);
+ 218:	95 9a       	sbi	0x12, 5	; 18
+PORTD &= ~(1 << PD4);
+ 21a:	94 98       	cbi	0x12, 4	; 18
+// Активизация четырехразрядного режима
+PORTD |= (1 << EN);
+ 21c:	92 9a       	sbi	0x12, 2	; 18
+PORTD &= ~(1 << EN);
+ 21e:	92 98       	cbi	0x12, 2	; 18
+ 220:	87 e8       	ldi	r24, 0x87	; 135
+ 222:	93 e1       	ldi	r25, 0x13	; 19
+ 224:	01 97       	sbiw	r24, 0x01	; 1
+ 226:	f1 f7       	brne	.-4      	; 0x224 <lcd_init+0x1e>
+ 228:	00 c0       	rjmp	.+0      	; 0x22a <lcd_init+0x24>
+ 22a:	00 00       	nop
+_delay_ms(5);
+lcd_com(0x28); // Шина 4 бит, LCD - 2 строки
+ 22c:	88 e2       	ldi	r24, 0x28	; 40
+ 22e:	79 df       	rcall	.-270    	; 0x122 <lcd_com>
+lcd_com(0x08); // Полное выключение дисплея
+ 230:	88 e0       	ldi	r24, 0x08	; 8
+ 232:	77 df       	rcall	.-274    	; 0x122 <lcd_com>
+lcd_com(0x01); // Очистка дисплея
+ 234:	81 e0       	ldi	r24, 0x01	; 1
+ 236:	75 df       	rcall	.-278    	; 0x122 <lcd_com>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 238:	95 e8       	ldi	r25, 0x85	; 133
+ 23a:	9a 95       	dec	r25
+ 23c:	f1 f7       	brne	.-4      	; 0x23a <lcd_init+0x34>
+ 23e:	00 00       	nop
+_delay_us(100);
+lcd_com(0x06); // Сдвиг курсора вправо
+ 240:	86 e0       	ldi	r24, 0x06	; 6
+ 242:	6f df       	rcall	.-290    	; 0x122 <lcd_com>
+lcd_com(0x0C); // Включение дисплея, курсор не видим
+ 244:	8c e0       	ldi	r24, 0x0C	; 12
+ 246:	6d df       	rcall	.-294    	; 0x122 <lcd_com>
+}
+ 248:	08 95       	ret
+
+0000024a <main>:
+ 
+int main(void)
+{
+ 24a:	af 92       	push	r10
+ 24c:	bf 92       	push	r11
+ 24e:	cf 92       	push	r12
+ 250:	df 92       	push	r13
+ 252:	ef 92       	push	r14
+ 254:	ff 92       	push	r15
+ 256:	0f 93       	push	r16
+ 258:	1f 93       	push	r17
+ 25a:	cf 93       	push	r28
+ 25c:	df 93       	push	r29
+// Настройка АЦП
+ADMUX |= (1 << REFS1)|(1 << REFS0); // Внутренний ИОН 2,56V
+ 25e:	87 b1       	in	r24, 0x07	; 7
+ 260:	80 6c       	ori	r24, 0xC0	; 192
+ 262:	87 b9       	out	0x07, r24	; 7
+ADCSRA |=     (1 << ADEN)  // Разрешение АЦП
+ 264:	86 b1       	in	r24, 0x06	; 6
+ 266:	8e 6e       	ori	r24, 0xEE	; 238
+ 268:	86 b9       	out	0x06, r24	; 6
+             |(1 << ADSC)  // Запуск преобразования
+             |(1 << ADFR)  // Непрерывный режим работы АЦП
+|(1 << ADPS2)|(1 << ADPS1) // Предделитель на 64 (частота АЦП 125kHz)
+             |(1 << ADIE); // Разрешение прерывания от АЦП
+ 
+sei(); // Глобально разрешаем прерывания
+ 26a:	78 94       	sei
+ 
+lcd_init(); // Инициализация LCD
+ 26c:	cc df       	rcall	.-104    	; 0x206 <lcd_init>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 26e:	87 ea       	ldi	r24, 0xA7	; 167
+ 270:	91 e6       	ldi	r25, 0x61	; 97
+ 272:	01 97       	sbiw	r24, 0x01	; 1
+ 274:	f1 f7       	brne	.-4      	; 0x272 <main+0x28>
+ 276:	00 c0       	rjmp	.+0      	; 0x278 <main+0x2e>
+ 278:	00 00       	nop
+ 
+_delay_ms(25);
+lcd_string(0x80 ,"VOLTS  * AMPERES");
+ 27a:	80 e8       	ldi	r24, 0x80	; 128
+ 27c:	60 e6       	ldi	r22, 0x60	; 96
+ 27e:	70 e0       	ldi	r23, 0x00	; 0
+ 280:	9d df       	rcall	.-198    	; 0x1bc <lcd_string>
+lcd_string(0xC0 ,"  .    *  .     ");
+ 282:	80 ec       	ldi	r24, 0xC0	; 192
+ 284:	61 e7       	ldi	r22, 0x71	; 113
+ 286:	70 e0       	ldi	r23, 0x00	; 0
+ 288:	99 df       	rcall	.-206    	; 0x1bc <lcd_string>
+while(1)
+{
+// Вычисляем среднее значение напряжения
+if(voltage_counter == 250)
+{
+voltage = ((voltage_buffer*256*11)/1024)/voltage_counter;
+ 28a:	6a ef       	ldi	r22, 0xFA	; 250
+ 28c:	e6 2e       	mov	r14, r22
+ 28e:	f1 2c       	mov	r15, r1
+ 290:	01 2d       	mov	r16, r1
+ 292:	11 2d       	mov	r17, r1
+voltage_counter = 0; // Обнуляем счетчик измерений
+voltage_buffer = 0; // Обнуляем буфер значений напряжения
+lcd_com(0xC0);
+lcd_data((voltage/1000%10)+'0');
+ 294:	58 ee       	ldi	r21, 0xE8	; 232
+ 296:	c5 2e       	mov	r12, r21
+ 298:	53 e0       	ldi	r21, 0x03	; 3
+ 29a:	d5 2e       	mov	r13, r21
+ 29c:	ca e0       	ldi	r28, 0x0A	; 10
+ 29e:	d0 e0       	ldi	r29, 0x00	; 0
+lcd_data((voltage/100%10)+'0');
+ 2a0:	44 e6       	ldi	r20, 0x64	; 100
+ 2a2:	a4 2e       	mov	r10, r20
+ 2a4:	b1 2c       	mov	r11, r1
+lcd_string(0xC0 ,"  .    *  .     ");
+ 
+while(1)
+{
+// Вычисляем среднее значение напряжения
+if(voltage_counter == 250)
+ 2a6:	80 91 83 00 	lds	r24, 0x0083
+ 2aa:	8a 3f       	cpi	r24, 0xFA	; 250
+ 2ac:	09 f0       	breq	.+2      	; 0x2b0 <main+0x66>
+ 2ae:	4a c0       	rjmp	.+148    	; 0x344 <main+0xfa>
+{
+voltage = ((voltage_buffer*256*11)/1024)/voltage_counter;
+ 2b0:	60 91 88 00 	lds	r22, 0x0088
+ 2b4:	70 91 89 00 	lds	r23, 0x0089
+ 2b8:	80 91 8a 00 	lds	r24, 0x008A
+ 2bc:	90 91 8b 00 	lds	r25, 0x008B
+ 2c0:	20 e0       	ldi	r18, 0x00	; 0
+ 2c2:	3b e0       	ldi	r19, 0x0B	; 11
+ 2c4:	40 e0       	ldi	r20, 0x00	; 0
+ 2c6:	50 e0       	ldi	r21, 0x00	; 0
+ 2c8:	8d d0       	rcall	.+282    	; 0x3e4 <__mulsi3>
+ 2ca:	3a e0       	ldi	r19, 0x0A	; 10
+ 2cc:	96 95       	lsr	r25
+ 2ce:	87 95       	ror	r24
+ 2d0:	77 95       	ror	r23
+ 2d2:	67 95       	ror	r22
+ 2d4:	3a 95       	dec	r19
+ 2d6:	d1 f7       	brne	.-12     	; 0x2cc <main+0x82>
+ 2d8:	a8 01       	movw	r20, r16
+ 2da:	97 01       	movw	r18, r14
+ 2dc:	b6 d0       	rcall	.+364    	; 0x44a <__udivmodsi4>
+ 2de:	30 93 85 00 	sts	0x0085, r19
+ 2e2:	20 93 84 00 	sts	0x0084, r18
+voltage_counter = 0; // Обнуляем счетчик измерений
+ 2e6:	10 92 83 00 	sts	0x0083, r1
+voltage_buffer = 0; // Обнуляем буфер значений напряжения
+ 2ea:	10 92 88 00 	sts	0x0088, r1
+ 2ee:	10 92 89 00 	sts	0x0089, r1
+ 2f2:	10 92 8a 00 	sts	0x008A, r1
+ 2f6:	10 92 8b 00 	sts	0x008B, r1
+lcd_com(0xC0);
+ 2fa:	80 ec       	ldi	r24, 0xC0	; 192
+ 2fc:	12 df       	rcall	.-476    	; 0x122 <lcd_com>
+lcd_data((voltage/1000%10)+'0');
+ 2fe:	80 91 84 00 	lds	r24, 0x0084
+ 302:	90 91 85 00 	lds	r25, 0x0085
+ 306:	b6 01       	movw	r22, r12
+ 308:	8c d0       	rcall	.+280    	; 0x422 <__udivmodhi4>
+ 30a:	cb 01       	movw	r24, r22
+ 30c:	be 01       	movw	r22, r28
+ 30e:	89 d0       	rcall	.+274    	; 0x422 <__udivmodhi4>
+ 310:	80 5d       	subi	r24, 0xD0	; 208
+ 312:	2d df       	rcall	.-422    	; 0x16e <lcd_data>
+lcd_data((voltage/100%10)+'0');
+ 314:	80 91 84 00 	lds	r24, 0x0084
+ 318:	90 91 85 00 	lds	r25, 0x0085
+ 31c:	b5 01       	movw	r22, r10
+ 31e:	81 d0       	rcall	.+258    	; 0x422 <__udivmodhi4>
+ 320:	cb 01       	movw	r24, r22
+ 322:	be 01       	movw	r22, r28
+ 324:	7e d0       	rcall	.+252    	; 0x422 <__udivmodhi4>
+ 326:	80 5d       	subi	r24, 0xD0	; 208
+ 328:	22 df       	rcall	.-444    	; 0x16e <lcd_data>
+lcd_com(0xC3);
+ 32a:	83 ec       	ldi	r24, 0xC3	; 195
+ 32c:	fa de       	rcall	.-524    	; 0x122 <lcd_com>
+lcd_data((voltage/10%10)+'0');
+ 32e:	80 91 84 00 	lds	r24, 0x0084
+ 332:	90 91 85 00 	lds	r25, 0x0085
+ 336:	be 01       	movw	r22, r28
+ 338:	74 d0       	rcall	.+232    	; 0x422 <__udivmodhi4>
+ 33a:	cb 01       	movw	r24, r22
+ 33c:	be 01       	movw	r22, r28
+ 33e:	71 d0       	rcall	.+226    	; 0x422 <__udivmodhi4>
+ 340:	80 5d       	subi	r24, 0xD0	; 208
+ 342:	15 df       	rcall	.-470    	; 0x16e <lcd_data>
+}
+ 
+// Вычисляем среднее значение тока
+if(current_counter == 250)
+ 344:	80 91 82 00 	lds	r24, 0x0082
+ 348:	8a 3f       	cpi	r24, 0xFA	; 250
+ 34a:	09 f0       	breq	.+2      	; 0x34e <main+0x104>
+ 34c:	ac cf       	rjmp	.-168    	; 0x2a6 <main+0x5c>
+{
+current = ((current_buffer*256*10)/1024)/current_counter;
+ 34e:	60 91 8c 00 	lds	r22, 0x008C
+ 352:	70 91 8d 00 	lds	r23, 0x008D
+ 356:	80 91 8e 00 	lds	r24, 0x008E
+ 35a:	90 91 8f 00 	lds	r25, 0x008F
+ 35e:	20 e0       	ldi	r18, 0x00	; 0
+ 360:	3a e0       	ldi	r19, 0x0A	; 10
+ 362:	40 e0       	ldi	r20, 0x00	; 0
+ 364:	50 e0       	ldi	r21, 0x00	; 0
+ 366:	3e d0       	rcall	.+124    	; 0x3e4 <__mulsi3>
+ 368:	2a e0       	ldi	r18, 0x0A	; 10
+ 36a:	96 95       	lsr	r25
+ 36c:	87 95       	ror	r24
+ 36e:	77 95       	ror	r23
+ 370:	67 95       	ror	r22
+ 372:	2a 95       	dec	r18
+ 374:	d1 f7       	brne	.-12     	; 0x36a <main+0x120>
+ 376:	a8 01       	movw	r20, r16
+ 378:	97 01       	movw	r18, r14
+ 37a:	67 d0       	rcall	.+206    	; 0x44a <__udivmodsi4>
+ 37c:	30 93 87 00 	sts	0x0087, r19
+ 380:	20 93 86 00 	sts	0x0086, r18
+current_counter = 0; // Обнуляем счетчик измерений
+ 384:	10 92 82 00 	sts	0x0082, r1
+current_buffer = 0; // Обнуляем буфер значений тока
+ 388:	10 92 8c 00 	sts	0x008C, r1
+ 38c:	10 92 8d 00 	sts	0x008D, r1
+ 390:	10 92 8e 00 	sts	0x008E, r1
+ 394:	10 92 8f 00 	sts	0x008F, r1
+lcd_com(0xC9);
+ 398:	89 ec       	ldi	r24, 0xC9	; 201
+ 39a:	c3 de       	rcall	.-634    	; 0x122 <lcd_com>
+lcd_data((current/1000%10)+'0');
+ 39c:	80 91 86 00 	lds	r24, 0x0086
+ 3a0:	90 91 87 00 	lds	r25, 0x0087
+ 3a4:	b6 01       	movw	r22, r12
+ 3a6:	3d d0       	rcall	.+122    	; 0x422 <__udivmodhi4>
+ 3a8:	cb 01       	movw	r24, r22
+ 3aa:	be 01       	movw	r22, r28
+ 3ac:	3a d0       	rcall	.+116    	; 0x422 <__udivmodhi4>
+ 3ae:	80 5d       	subi	r24, 0xD0	; 208
+ 3b0:	de de       	rcall	.-580    	; 0x16e <lcd_data>
+lcd_com(0xCB);
+ 3b2:	8b ec       	ldi	r24, 0xCB	; 203
+ 3b4:	b6 de       	rcall	.-660    	; 0x122 <lcd_com>
+lcd_data((current/100%10)+'0');
+ 3b6:	80 91 86 00 	lds	r24, 0x0086
+ 3ba:	90 91 87 00 	lds	r25, 0x0087
+ 3be:	b5 01       	movw	r22, r10
+ 3c0:	30 d0       	rcall	.+96     	; 0x422 <__udivmodhi4>
+ 3c2:	cb 01       	movw	r24, r22
+ 3c4:	be 01       	movw	r22, r28
+ 3c6:	2d d0       	rcall	.+90     	; 0x422 <__udivmodhi4>
+ 3c8:	80 5d       	subi	r24, 0xD0	; 208
+ 3ca:	d1 de       	rcall	.-606    	; 0x16e <lcd_data>
+lcd_data((current/10%10)+'0');
+ 3cc:	80 91 86 00 	lds	r24, 0x0086
+ 3d0:	90 91 87 00 	lds	r25, 0x0087
+ 3d4:	be 01       	movw	r22, r28
+ 3d6:	25 d0       	rcall	.+74     	; 0x422 <__udivmodhi4>
+ 3d8:	cb 01       	movw	r24, r22
+ 3da:	be 01       	movw	r22, r28
+ 3dc:	22 d0       	rcall	.+68     	; 0x422 <__udivmodhi4>
+ 3de:	80 5d       	subi	r24, 0xD0	; 208
+ 3e0:	c6 de       	rcall	.-628    	; 0x16e <lcd_data>
+ 3e2:	61 cf       	rjmp	.-318    	; 0x2a6 <main+0x5c>
+
+000003e4 <__mulsi3>:
+ 3e4:	62 9f       	mul	r22, r18
+ 3e6:	d0 01       	movw	r26, r0
+ 3e8:	73 9f       	mul	r23, r19
+ 3ea:	f0 01       	movw	r30, r0
+ 3ec:	82 9f       	mul	r24, r18
+ 3ee:	e0 0d       	add	r30, r0
+ 3f0:	f1 1d       	adc	r31, r1
+ 3f2:	64 9f       	mul	r22, r20
+ 3f4:	e0 0d       	add	r30, r0
+ 3f6:	f1 1d       	adc	r31, r1
+ 3f8:	92 9f       	mul	r25, r18
+ 3fa:	f0 0d       	add	r31, r0
+ 3fc:	83 9f       	mul	r24, r19
+ 3fe:	f0 0d       	add	r31, r0
+ 400:	74 9f       	mul	r23, r20
+ 402:	f0 0d       	add	r31, r0
+ 404:	65 9f       	mul	r22, r21
+ 406:	f0 0d       	add	r31, r0
+ 408:	99 27       	eor	r25, r25
+ 40a:	72 9f       	mul	r23, r18
+ 40c:	b0 0d       	add	r27, r0
+ 40e:	e1 1d       	adc	r30, r1
+ 410:	f9 1f       	adc	r31, r25
+ 412:	63 9f       	mul	r22, r19
+ 414:	b0 0d       	add	r27, r0
+ 416:	e1 1d       	adc	r30, r1
+ 418:	f9 1f       	adc	r31, r25
+ 41a:	bd 01       	movw	r22, r26
+ 41c:	cf 01       	movw	r24, r30
+ 41e:	11 24       	eor	r1, r1
+ 420:	08 95       	ret
+
+00000422 <__udivmodhi4>:
+ 422:	aa 1b       	sub	r26, r26
+ 424:	bb 1b       	sub	r27, r27
+ 426:	51 e1       	ldi	r21, 0x11	; 17
+ 428:	07 c0       	rjmp	.+14     	; 0x438 <__udivmodhi4_ep>
+
+0000042a <__udivmodhi4_loop>:
+ 42a:	aa 1f       	adc	r26, r26
+ 42c:	bb 1f       	adc	r27, r27
+ 42e:	a6 17       	cp	r26, r22
+ 430:	b7 07       	cpc	r27, r23
+ 432:	10 f0       	brcs	.+4      	; 0x438 <__udivmodhi4_ep>
+ 434:	a6 1b       	sub	r26, r22
+ 436:	b7 0b       	sbc	r27, r23
+
+00000438 <__udivmodhi4_ep>:
+ 438:	88 1f       	adc	r24, r24
+ 43a:	99 1f       	adc	r25, r25
+ 43c:	5a 95       	dec	r21
+ 43e:	a9 f7       	brne	.-22     	; 0x42a <__udivmodhi4_loop>
+ 440:	80 95       	com	r24
+ 442:	90 95       	com	r25
+ 444:	bc 01       	movw	r22, r24
+ 446:	cd 01       	movw	r24, r26
+ 448:	08 95       	ret
+
+0000044a <__udivmodsi4>:
+ 44a:	a1 e2       	ldi	r26, 0x21	; 33
+ 44c:	1a 2e       	mov	r1, r26
+ 44e:	aa 1b       	sub	r26, r26
+ 450:	bb 1b       	sub	r27, r27
+ 452:	fd 01       	movw	r30, r26
+ 454:	0d c0       	rjmp	.+26     	; 0x470 <__udivmodsi4_ep>
+
+00000456 <__udivmodsi4_loop>:
+ 456:	aa 1f       	adc	r26, r26
+ 458:	bb 1f       	adc	r27, r27
+ 45a:	ee 1f       	adc	r30, r30
+ 45c:	ff 1f       	adc	r31, r31
+ 45e:	a2 17       	cp	r26, r18
+ 460:	b3 07       	cpc	r27, r19
+ 462:	e4 07       	cpc	r30, r20
+ 464:	f5 07       	cpc	r31, r21
+ 466:	20 f0       	brcs	.+8      	; 0x470 <__udivmodsi4_ep>
+ 468:	a2 1b       	sub	r26, r18
+ 46a:	b3 0b       	sbc	r27, r19
+ 46c:	e4 0b       	sbc	r30, r20
+ 46e:	f5 0b       	sbc	r31, r21
+
+00000470 <__udivmodsi4_ep>:
+ 470:	66 1f       	adc	r22, r22
+ 472:	77 1f       	adc	r23, r23
+ 474:	88 1f       	adc	r24, r24
+ 476:	99 1f       	adc	r25, r25
+ 478:	1a 94       	dec	r1
+ 47a:	69 f7       	brne	.-38     	; 0x456 <__udivmodsi4_loop>
+ 47c:	60 95       	com	r22
+ 47e:	70 95       	com	r23
+ 480:	80 95       	com	r24
+ 482:	90 95       	com	r25
+ 484:	9b 01       	movw	r18, r22
+ 486:	ac 01       	movw	r20, r24
+ 488:	bd 01       	movw	r22, r26
+ 48a:	cf 01       	movw	r24, r30
+ 48c:	08 95       	ret
+
+0000048e <_exit>:
+ 48e:	f8 94       	cli
+
+00000490 <__stop_program>:
+ 490:	ff cf       	rjmp	.-2      	; 0x490 <__stop_program>
