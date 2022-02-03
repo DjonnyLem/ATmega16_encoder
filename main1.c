@@ -2,7 +2,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
- 
+#include "LCD.h"           //Хедер для LCD дисплея
 
 
 
@@ -27,7 +27,7 @@ unsigned int	 	CountLED = BLINK;			// Cчетчик импульсов LED. Считает по прерыван
 
 unsigned int	 	Count = 0;		//просто счетчик, значение которого будем выводить на дисплей
 unsigned int		count1 = 100;	//просто счетчик, обеспечивающий работу счетчика Count примерно раз в 1сек
-
+uint8_t *pBuf; // определяем переменную указатель на буфер (нужно для обображения вывода чисел??)
 
 struct flag 
 {
@@ -64,10 +64,11 @@ ISR(TIMER0_COMP_vect)		//Обработчик прерывания таймера по совпадению
 
 int main(void)
 {
+	LCDinit();      //Инициализация LCD
 	Init_TIMER0_COMP(); //Инициализация таймера
     Init_Port();		//Инициализация портов
 	
-
+	pBuf=BCD_GetPointerBuf();//иннициализация переменной pBuf для вывода данных на LCD
 	OCR0 = COUNT_TIMER; //Заносим регистр значение счетчика
     TCNT0 =0;			//Сбрасываем таймер
     sei();								// Общее разрешение прерываний
@@ -90,6 +91,7 @@ int main(void)
 			//обработка счетчика завершено		
 			Flag.LED = 0; 	//Устанавливаем во флаг flag.LED значение 0
 			BlinkLED1(); //переход в функцию мигания светодиодом
+			LCD_DATA(); //вывод данных на дисплей
 		};
 		asm("nop");
 	};
@@ -162,5 +164,19 @@ void BlinkLED1 (void)
 
 };
 
+void LCD_DATA (void)
+{
+		LCDstringXY("Count:",0,0);
+		LCDstringXY("Volt:",0,1);
+		
+		BCD_5Int(Count);
+		LCDstring_of_sramXY(pBuf,10,0);
+		
+		//BCD_5Int(value_ADC);
+		//LCDstring_of_sramXY(pBuf,8,1);
+		
+        //asm("nop");
+		//LCDstringXY(EncValueValue,5,1);
+};
 
 
