@@ -1,4 +1,3 @@
-
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -170,7 +169,7 @@ void LCD_DATA (void)
 		LCDstringXY("Volt:",0,1);
 		
 		BCD_5Int(Count);
-		LCDstring_of_sramXY(pBuf,10,0);
+		LCDstring_of_sramXY(pBuf,8,0);
 		
 		//BCD_5Int(value_ADC);
 		//LCDstring_of_sramXY(pBuf,8,1);
