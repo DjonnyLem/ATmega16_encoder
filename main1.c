@@ -17,7 +17,7 @@
 #define LED_DDR 	DDRD 
 #define LED_PIN		PIND
 #define	LED1 		7	
-
+#define CountTemp	3
 #define  BLINK 30		//значение счетчика периода мигания светодиода. 
 
 
@@ -25,7 +25,7 @@
 unsigned int	 	CountLED = BLINK;			// Cчетчик импульсов LED. Считает по прерываниям таймера  30*10mc =0,3сек
 
 unsigned int	 	Count = 0;		//просто счетчик, значение которого будем выводить на дисплей
-unsigned int		count1 = 100;	//просто счетчик, обеспечивающий работу счетчика Count примерно раз в 1сек
+unsigned int		count1 = CountTemp;	//просто счетчик, обеспечивающий работу счетчика Count примерно раз в 1сек
 uint8_t *pBuf; // определяем переменную указатель на буфер (нужно для обображения вывода чисел??)
 
 struct flag 
@@ -80,7 +80,7 @@ int main(void)
 			count1--;	
 			if (count1 == 0)
 			{
-				count1 =100;
+				count1 = CountTemp;
 				Count++;
 				if (Count ==255)
 				{
@@ -168,8 +168,8 @@ void LCD_DATA (void)
 		LCDstringXY("Count:",0,0);
 		LCDstringXY("Volt:",0,1);
 		
-		BCD_5Int(Count);
-		LCDstring_of_sramXY(pBuf,8,0);
+		BCD_3(Count);
+		LCDstring_of_sramXY(pBuf,7,0);
 		
 		//BCD_5Int(value_ADC);
 		//LCDstring_of_sramXY(pBuf,8,1);
