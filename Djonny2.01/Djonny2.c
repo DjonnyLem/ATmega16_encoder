@@ -12,7 +12,7 @@
 //#define  BLINK 30		//значение счетчика периода мигания светодиода. 
 
 char	high_ADC=0, low_ADC=0;	//переменная для записи значения АЦП
-unsigned int ADC_value;
+unsigned int ADC_value, value;
 //unsigned int	 	CountLED = BLINK;			// Cчетчик импульсов LED. Считает по прерываниям таймера  30*10mc =0,3сек
 
 //unsigned int	 	Count = 0;		//просто счетчик, значение которого будем выводить на дисплей
@@ -23,19 +23,19 @@ status|=(1<<0);
 status&=(~(1<<0));
 status&(1<<0);
 */
-
- struct  
+/*
+ struct  flag
 {
 	_Bool LED	:1;		//Флаг LED диода. Флаг установлен- счетчик BLINK досчитал до установленного значения
-	volatile _Bool FADC  :1;		//Флаг АЦП. Флаг установлен- данные с ADC записаны
+	volatile char FADC  :1;		//Флаг АЦП. Флаг установлен- данные с ADC записаны
 	
-}Flag;
+}Flag;*/
 
 uint8_t *pBuf; // определяем переменную указатель на буфер (нужно для обображения вывода чисел??)
 /********************************************************************
 * Обработчик прерывания таймера по совпадению
 *********************************************************************/
-
+/*
 ISR(TIMER0_COMP_vect)		//Обработчик прерывания таймера по совпадению
 	{
 	cli();	//запрещаем прерывания
@@ -44,12 +44,12 @@ ISR(TIMER0_COMP_vect)		//Обработчик прерывания таймера по совпадению
 	sei();					// разрешаем прерывание
 	}
 
-
+*/
 
 /********************************************************************
 * Обработчик прерывания от АЦП
 *********************************************************************/
-
+/*
 ISR(ADC_vect)
     {
 	cli();
@@ -57,7 +57,7 @@ ISR(ADC_vect)
 	high_ADC = ADCH;
 	ADC_value = high_ADC * 256 + low_ADC;
 	asm ("nop");
-	Flag.FADC = 1;
+	//Flag.FADC = 1;
 	//status|=(1<<0);
 	//Flag.FADC = 1;
 	//ADCSRA&=~(1 << ADSC);
@@ -73,7 +73,7 @@ int main(void)
 {
 	LCDinit();      //Инициализация LCD
     Init_Port();		//Инициализация портов
-	Init_TIMER0_COMP(); //Инициализация таймера по совпадению
+	//Init_TIMER0_COMP(); //Инициализация таймера по совпадению
 	Init_ADC();			//Инициализация АЦП
 	//LCD_DATA();
 	pBuf=BCD_GetPointerBuf();//иннициализация переменной pBuf для вывода данных на LCD
@@ -85,11 +85,14 @@ int main(void)
 		asm("nop");
 		
 		
-		if(Flag.FADC = 1)
+		if(ADCSRA&(1<<ADIF))
 		{
-;	
+			low_ADC = ADCL;
+			high_ADC = ADCH;
+			ADC_value = high_ADC*256+low_ADC;		
+			
+			ADCSRA|=(1<<ADIF);	
 			LCD_DATA();
-			Flag.FADC = 0;
 		
 		};
 	}
@@ -118,7 +121,8 @@ void Init_Port(void)
 	
 void LCD_DATA (ADC_value)
 {
-		unsigned int value=ADC_value*4680/1024
+	//	pBuf = ADC_value;
+    //    value = pBuf;
 
 		//Flag.FADC == 0;
 		//LCDclear();
@@ -129,8 +133,8 @@ void LCD_DATA (ADC_value)
 		//BCD_3("123");
 		//LCDstring_of_sramXY(pBuf,7,0);
 		
-		BCD_4Int(value);
-		LCDstring_of_sramXY(pBuf,6,1);
+		BCD_4Int(ADC_value);
+		LCDstring_of_sramXY(pBuf,7,1);
 		//LCDstring_of_sramXY;
 		//Flag.FADC == 0;
 	
