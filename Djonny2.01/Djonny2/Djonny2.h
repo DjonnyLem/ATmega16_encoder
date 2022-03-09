@@ -6,11 +6,15 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <stdio.h>
 
-//#include "TIMER.h"
-#include "adc.h"
+#include "lcd_hd44780.h"
+
+
+#include "lcd_hd44780.h"
+#include "ADC.h"
 #include "TIMER.h"
-#include "LCD.h"
+#include "lcd.h"
 void LCD_DATA (void);
 void Init_Port(void);
 
